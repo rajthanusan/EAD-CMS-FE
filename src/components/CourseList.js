@@ -351,22 +351,24 @@ const CourseList = () => {
                       </button>
                     ) : (
                       <button
-                        onClick={() => handleEnroll(course._id)}
-                        disabled={enrolling[course._id] || course.enrollmentCount >= course.capacity}
-                        className={`w-full py-3 px-4 rounded-xl flex items-center justify-center text-sm font-semibold transition-all duration-200 ${
+                      onClick={() => handleEnroll(course._id)}
+                      disabled={enrolling[course._id] || course.enrollmentCount >= course.capacity}
+                      className={`w-full py-3 px-4 rounded-xl flex items-center justify-center text-sm font-semibold transition-all duration-200 
+                        ${
                           course.enrollmentCount >= course.capacity
                             ? "bg-gray-100 text-gray-500 cursor-not-allowed border border-gray-200"
-                            : "bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white shadow-lg hover:shadow-xl transform hover:scale-105"
+                            : "bg-purple-600 hover:bg-purple-700 text-white shadow-md hover:shadow-lg transform hover:scale-105"
                         } ${enrolling[course._id] ? "opacity-50" : ""}`}
-                        title={course.enrollmentCount >= course.capacity ? "Course is full" : "Enroll in course"}
-                      >
-                        <FaUserPlus className="mr-2" />
-                        {enrolling[course._id]
-                          ? "Processing..."
-                          : course.enrollmentCount >= course.capacity
-                            ? "Course Full"
-                            : "Enroll Now"}
-                      </button>
+                      title={course.enrollmentCount >= course.capacity ? "Course is full" : "Enroll in course"}
+                    >
+                      <FaUserPlus className="mr-2" />
+                      {enrolling[course._id]
+                        ? "Processing..."
+                        : course.enrollmentCount >= course.capacity
+                        ? "Course Full"
+                        : "Enroll Now"}
+                    </button>
+                    
                     )
                   ) : (
                     <div className="bg-purple-50 text-purple-700 px-4 py-3 rounded-xl flex items-center justify-center border border-purple-200">
