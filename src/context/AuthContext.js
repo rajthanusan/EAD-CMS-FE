@@ -2,13 +2,14 @@ import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-// Create context
+
 const AuthContext = createContext();
 
-// Base API URL
-const API_BASE_URL = 'http://localhost:5000';
 
-// Initial state
+const API_BASE_URL = 'https://ead-cms-be.vercel.app';
+
+
+
 const initialState = {
   user: null,
   token: localStorage.getItem('token'),
@@ -16,7 +17,7 @@ const initialState = {
   loading: true
 };
 
-// Auth reducer
+
 const authReducer = (state, action) => {
   switch (action.type) {
     case 'USER_LOADED':
@@ -58,23 +59,23 @@ const authReducer = (state, action) => {
   }
 };
 
-// Auth Provider component
+
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
-  // Load user on initial render if token exists
+  
   useEffect(() => {
     if (state.token) {
       loadUser();
     } else {
-      // If no token, set loading to false after a short delay
+      
       setTimeout(() => {
         dispatch({ type: 'SET_LOADING', payload: false });
       }, 1000);
     }
   }, [state.token]);
 
-  // Helper function to make API requests with proper token handling
+  
   const apiRequest = async (url, options = {}) => {
     const token = localStorage.getItem('token');
     const config = {
@@ -85,7 +86,7 @@ export const AuthProvider = ({ children }) => {
       ...options
     };
 
-    // Always add token if it exists
+    
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
@@ -95,7 +96,7 @@ export const AuthProvider = ({ children }) => {
       const data = await response.json();
       
       if (!response.ok) {
-        // If unauthorized, clear token
+        
         if (response.status === 401) {
           dispatch({ type: 'AUTH_ERROR' });
           toast.error('Session expired. Please login again.');
@@ -109,7 +110,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Load user
+  
   const loadUser = async () => {
     try {
       const data = await apiRequest('/api/auth/me');
@@ -125,12 +126,12 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Register user
+  
   const register = async (userData) => {
     try {
       dispatch({ type: 'SET_LOADING', payload: true });
       
-      // First register the user
+      
       const registerResponse = await fetch(`${API_BASE_URL}/api/auth/register`, {
         method: 'POST',
         headers: {
@@ -145,7 +146,7 @@ export const AuthProvider = ({ children }) => {
         throw new Error(data.error || data.message || 'Registration failed');
       }
       
-      // Dispatch success to store the token
+      
       dispatch({
         type: 'REGISTER_SUCCESS',
         payload: data
@@ -163,12 +164,12 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Login user
+  
   const login = async (userData) => {
     try {
       dispatch({ type: 'SET_LOADING', payload: true });
       
-      // First login to get token
+      
       const loginResponse = await fetch(`${API_BASE_URL}/api/auth/login`, {
         method: 'POST',
         headers: {
@@ -183,7 +184,7 @@ export const AuthProvider = ({ children }) => {
         throw new Error(data.error || data.message || 'Login failed');
       }
       
-      // Dispatch success to store the token
+      
       dispatch({
         type: 'LOGIN_SUCCESS',
         payload: data
@@ -201,15 +202,15 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Logout
+  
   const logout = () => {
     dispatch({ type: 'LOGOUT' });
     toast.info('You have been logged out.');
   };
 
-  // Course API methods
+  
   const courseAPI = {
-    // Get all courses
+    
     getCourses: async () => {
       try {
         const data = await apiRequest('/api/courses');
@@ -220,7 +221,7 @@ export const AuthProvider = ({ children }) => {
       }
     },
     
-    // Get single course
+    
     getCourse: async (id) => {
       try {
         const data = await apiRequest(`/api/courses/${id}`);
@@ -231,7 +232,7 @@ export const AuthProvider = ({ children }) => {
       }
     },
     
-    // Create course (admin only)
+    
     createCourse: async (courseData) => {
       try {
         const data = await apiRequest('/api/courses', {
@@ -246,7 +247,7 @@ export const AuthProvider = ({ children }) => {
       }
     },
     
-    // Update course (admin only)
+    
     updateCourse: async (id, courseData) => {
       try {
         const data = await apiRequest(`/api/courses/${id}`, {
@@ -261,7 +262,7 @@ export const AuthProvider = ({ children }) => {
       }
     },
     
-    // Delete course (admin only)
+    
     deleteCourse: async (id) => {
       try {
         const data = await apiRequest(`/api/courses/${id}`, {
@@ -276,9 +277,9 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Enrollment API methods
+  
   const enrollmentAPI = {
-    // Enroll in course
+    
     enroll: async (courseId) => {
       try {
         const data = await apiRequest(`/api/enroll/${courseId}`, {
@@ -292,7 +293,7 @@ export const AuthProvider = ({ children }) => {
       }
     },
     
-    // Unenroll from course
+    
     unenroll: async (courseId) => {
       try {
         const data = await apiRequest(`/api/enroll/${courseId}`, {
@@ -306,7 +307,7 @@ export const AuthProvider = ({ children }) => {
       }
     },
     
-    // Get my enrolled courses
+    
     getMyCourses: async () => {
       try {
         const data = await apiRequest('/api/enroll/my-courses');
@@ -319,48 +320,48 @@ export const AuthProvider = ({ children }) => {
   };
 
   const studentAPI = {
-    // Get all students
+    
     getStudents: () => apiRequest('/api/students'),
     
-    // Get single student
+    
     getStudent: (id) => apiRequest(`/api/students/${id}`),
     
-    // Delete student
+    
     deleteStudent: (id) => 
       apiRequest(`/api/students/${id}`, {
         method: 'DELETE'
       }),
     
-    // Get student enrollments
+    
     getStudentEnrollments: (id) => 
       apiRequest(`/api/students/${id}/enrollments`)
   };
   
-  // Result API methods
+  
   const resultAPI = {
-    // Add result
+    
     addResult: (resultData) => 
       apiRequest('/api/results', {
         method: 'POST',
         body: JSON.stringify(resultData)
       }),
     
-    // Get student results (for admin)
+    
     getStudentResults: (studentId) => 
       apiRequest(`/api/results/student/${studentId}`),
     
-    // Get my results (for student)
+    
     getMyResults: () => 
       apiRequest('/api/results/my-results'),
     
-    // Update result
+    
     updateResult: (id, resultData) => 
       apiRequest(`/api/results/${id}`, {
         method: 'PUT',
         body: JSON.stringify(resultData)
       }),
     
-    // Delete result
+    
     deleteResult: (id) => 
       apiRequest(`/api/results/${id}`, {
         method: 'DELETE'
@@ -379,7 +380,7 @@ export const AuthProvider = ({ children }) => {
       enrollmentAPI,
       studentAPI,
       resultAPI, 
-      apiRequest // Expose apiRequest for direct use if needed
+      apiRequest 
     }}>
       {children}
       <ToastContainer
@@ -397,7 +398,7 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-// Custom hook to use auth context
+
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
