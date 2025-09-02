@@ -6,8 +6,12 @@ import CourseList from './components/CourseList';
 import Login from './components/Login';
 import Register from './components/Register';
 import EnrollmentList from './components/EnrollmentList';
+import StudentManagement from './components/StudentManagement';
+import StudentDetails from './components/StudentDetails';
+import ResultManagement from './components/ResultManagement';
+import StudentResults from './components/StudentResults';
 
-// Protected Route component
+
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, loading } = useAuth();
   
@@ -22,7 +26,7 @@ const ProtectedRoute = ({ children }) => {
   return isAuthenticated ? children : <Navigate to="/login" />;
 };
 
-// Public Route component (redirect if authenticated)
+
 const PublicRoute = ({ children }) => {
   const { isAuthenticated, loading } = useAuth();
   
@@ -75,6 +79,26 @@ function App() {
               </ProtectedRoute>
             } />
             <Route path="*" element={<Navigate to="/" />} />
+            <Route path="/admin/students" element={
+  <ProtectedRoute>
+    <StudentManagement />
+  </ProtectedRoute>
+} />
+<Route path="/admin/students/:id" element={
+  <ProtectedRoute>
+    <StudentDetails />
+  </ProtectedRoute>
+} />
+<Route path="/admin/results" element={
+  <ProtectedRoute>
+    <ResultManagement />
+  </ProtectedRoute>
+} />
+<Route path="/my-results" element={
+  <ProtectedRoute>
+    <StudentResults />
+  </ProtectedRoute>
+} />
           </Routes>
         </main>
       </div>

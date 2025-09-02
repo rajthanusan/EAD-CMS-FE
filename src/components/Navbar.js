@@ -11,6 +11,9 @@ import {
   FaBars,
   FaTimes,
   FaUser,
+  FaUsers,
+  FaChartBar,
+  FaChartLine
 } from "react-icons/fa"
 import { useState } from "react"
 
@@ -74,6 +77,37 @@ const Navbar = () => {
                 >
                   <FaUserGraduate className="mr-2" />
                   My Courses
+                </Link>
+              )}
+              
+              {/* For admin users */}
+              {user && user.role === "admin" && (
+                <>
+                  <Link
+                    to="/admin/students"
+                    className="text-white hover:bg-white hover:bg-opacity-10 px-4 py-2 rounded-lg text-sm font-medium flex items-center transition-all duration-200"
+                  >
+                    <FaUsers className="mr-2" />
+                    Students
+                  </Link>
+                  <Link
+                    to="/admin/results"
+                    className="text-white hover:bg-white hover:bg-opacity-10 px-4 py-2 rounded-lg text-sm font-medium flex items-center transition-all duration-200"
+                  >
+                    <FaChartBar className="mr-2" />
+                    Results
+                  </Link>
+                </>
+              )}
+
+              {/* For student users */}
+              {user && user.role === "student" && (
+                <Link
+                  to="/my-results"
+                  className="text-white hover:bg-white hover:bg-opacity-10 px-4 py-2 rounded-lg text-sm font-medium flex items-center transition-all duration-200"
+                >
+                  <FaChartLine className="mr-2" />
+                  My Results
                 </Link>
               )}
             </div>
@@ -152,6 +186,40 @@ const Navbar = () => {
               >
                 <FaUserGraduate className="mr-3 text-lg" />
                 My Courses
+              </Link>
+            )}
+
+            {/* For admin users - Mobile */}
+            {user && user.role === "admin" && (
+              <>
+                <Link
+                  to="/admin/students"
+                  className="text-white hover:bg-white hover:bg-opacity-10 block px-4 py-3 rounded-xl text-base font-medium flex items-center transition-all duration-200"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <FaUsers className="mr-3 text-lg" />
+                  Students
+                </Link>
+                <Link
+                  to="/admin/results"
+                  className="text-white hover:bg-white hover:bg-opacity-10 block px-4 py-3 rounded-xl text-base font-medium flex items-center transition-all duration-200"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <FaChartBar className="mr-3 text-lg" />
+                  Results
+                </Link>
+              </>
+            )}
+
+            {/* For student users - Mobile */}
+            {user && user.role === "student" && (
+              <Link
+                to="/my-results"
+                className="text-white hover:bg-white hover:bg-opacity-10 block px-4 py-3 rounded-xl text-base font-medium flex items-center transition-all duration-200"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <FaChartLine className="mr-3 text-lg" />
+                My Results
               </Link>
             )}
 
