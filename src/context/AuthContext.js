@@ -205,7 +205,7 @@ export const AuthProvider = ({ children }) => {
   
   const logout = () => {
     dispatch({ type: 'LOGOUT' });
-    toast.info('You have been logged out.');
+   
   };
 
   
