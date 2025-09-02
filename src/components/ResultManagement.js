@@ -78,7 +78,7 @@ const ResultManagement = () => {
   if (loading && students.length === 0) {
     return (
       <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
       </div>
     );
   }
@@ -90,7 +90,7 @@ const ResultManagement = () => {
         {selectedStudent && (
           <button
             onClick={() => setShowAddForm(true)}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center"
+            className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg flex items-center"
           >
             <FaPlus className="mr-2" /> Add Result
           </button>
@@ -108,7 +108,7 @@ const ResultManagement = () => {
         <select
           value={selectedStudent}
           onChange={(e) => setSelectedStudent(e.target.value)}
-          className="w-full md:w-1/2 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full md:w-1/2 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
         >
           <option value="">Select a student</option>
           {students.map((student) => (
@@ -142,7 +142,7 @@ const ResultManagement = () => {
           <p className="text-gray-500 mt-2">This student doesn't have any results yet.</p>
           <button
             onClick={() => setShowAddForm(true)}
-            className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center mx-auto"
+            className="mt-4 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg flex items-center mx-auto"
           >
             <FaPlus className="mr-2" /> Add First Result
           </button>
@@ -196,7 +196,7 @@ const ResultManagement = () => {
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <button
                         onClick={() => setEditingResult(result)}
-                        className="text-blue-600 hover:text-blue-900 mr-4"
+                        className="text-purple-600 hover:text-purple-900 mr-4"
                       >
                         <FaEdit className="inline mr-1" /> Edit
                       </button>
